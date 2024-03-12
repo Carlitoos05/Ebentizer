@@ -6,7 +6,7 @@ export default function App() {
   return (
 
     <View style={styles.container}>
-      <TouchableOpacity onPress={addPerson}>
+      <TouchableOpacity>
         <Text>Adaugă</Text>
       </TouchableOpacity>
       <Text>Hola Mundo</Text>
