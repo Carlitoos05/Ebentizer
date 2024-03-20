@@ -1,30 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { db } from './firebase';
-import index from "./login/js/index";
-
-
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Navigation from "./Navigation";
 
 export default function App() {
-  return (
-
-    <View style={styles.container}>
-
-      <TouchableOpacity>
-        <Text>Adaugă</Text>
-      </TouchableOpacity>
-      <Text>Hola Mundo</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <Navigation/>;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-});
+const styles = StyleSheet.create({});
