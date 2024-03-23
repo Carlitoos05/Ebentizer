@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity} from 'react-native';
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
+
+
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -17,10 +20,10 @@ export default function LoginScreen() {
     }
 
     // Llamar a signInWithEmailAndPassword con email y password
-    auth.signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('Inicio de sesión exitoso');
+        console.log('user',user);
         navigation.navigate('Home');
       })
       .catch(error => {

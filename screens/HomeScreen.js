@@ -1,11 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { auth } from '../firebase';
+
+
 
 export default function HomeScreen({ navigation }) {
+  const [user, setUser]=useState("");
+
+
+useEffect(()=>{
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+
+      setUser(user.displayName)
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
+  updateProfile(auth.currentUser, {
+    displayName: "Carlos", photoURL: "https://example.com/jane-q-user/profile.jpg"
+  }).then(() => {
+    console.log(user)
+  }).catch((error) => {
+    // An error occurred
+    // ...
+  });
+},[])
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>¡Bienvenido a tu pantalla de inicio!</Text>
+      <Text style={styles.title}>Bienvenido {user}</Text>
+      
     </View>
   )
 }
