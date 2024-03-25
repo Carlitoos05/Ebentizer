@@ -5,18 +5,25 @@ import { onValue, push, ref, set } from "firebase/database";
 import { database } from "../firebase";
 import DatePicker from "../Components/DatePicker";
 import Calendario from "../Components/Calendar";
+import { useNavigation } from "@react-navigation/native";
 
 const AddProgram = () => {
-  const [data, setData] = useState();
+  const navigation = useNavigation();
+
+  const [data, setData] = useState("");
   const [ampm, setAmpm] = useState();
   const [day, setDay] = useState();
 
   const newProgram = () => {
     if (data) {
-      const dataRef = ref(database, "Programe");
-      const newProgram = push(dataRef, data);
-      // console.log("to database", newProgram.key);
+      const programsRef = ref(database, "Programe");
+      push(programsRef, { data: data })
+        .then((dt) => {
+          // console.log("dataID", d.key);
+        })
+        .catch((error) => console.error(error));
     }
+    navigation.navigate("Programe");
   };
 
   // const getPrograme = () => {

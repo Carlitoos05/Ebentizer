@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { onValue, ref, set } from "firebase/database";
 import { database } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 
-const Programe = () => {
+const Grupuri = () => {
   const navigation = useNavigation();
 
-  const [programs, setPrograms] = useState();
+  const [grupuri, setGrupuri] = useState();
 
-  const getPrograme = () => {
-    const programeRef = ref(database, "Programe/");
-    onValue(programeRef, (snapshot) => {
+  const getGrupuri = () => {
+    const grupuriRef = ref(database, "Grupuri/");
+    onValue(grupuriRef, (snapshot) => {
       const tmpArray = [];
       snapshot.forEach((childSnapshot) => {
         const childKey = childSnapshot.key;
@@ -28,14 +26,14 @@ const Programe = () => {
 
         tmpArray.push({ id: childKey, ...childData });
       });
-      const programs = tmpArray;
+      const grupuri = tmpArray;
 
-      setPrograms(programs);
+      setGrupuri(grupuri);
     });
   };
 
   useEffect(() => {
-    getPrograme();
+    getGrupuri();
   }, []);
 
   const myItemSeparator = () => {
@@ -53,26 +51,26 @@ const Programe = () => {
       </View>
     );
   };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("AddProgram")}>
+    <View>
+      <Text>GRUPURI DE CANTARI</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("AddGrup")}>
         <LinearGradient
           colors={["#004d40", "#009688"]}
           style={styles.appButtonContainer}
         >
-          <Text style={styles.appButtonText}>Adauga un program</Text>
+          <Text style={styles.appButtonText}>Adauga un grup </Text>
         </LinearGradient>
       </TouchableOpacity>
       <FlatList
-        data={programs}
+        data={grupuri}
         renderItem={({ item }) => (
           <Text
-            onPress={() =>
-              navigation.navigate("Program", { programId: item.id })
-            }
+            onPress={() => navigation.navigate("Grup", { grupId: item.id })}
             style={styles.item}
           >
-            {JSON.stringify(item.data)}
+            {item.name}
           </Text>
         )}
         keyExtractor={(item) => item.id}
@@ -88,7 +86,7 @@ const Programe = () => {
               textDecorationLine: "underline",
             }}
           >
-            Programe create
+            Grupuri create
           </Text>
         )}
         ListFooterComponent={() => (
@@ -104,11 +102,11 @@ const Programe = () => {
           </Text>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default Programe;
+export default Grupuri;
 
 const styles = StyleSheet.create({
   container: {

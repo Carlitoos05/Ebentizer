@@ -1,55 +1,110 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { getAuth, signOut } from "firebase/auth";
+import { database } from "../firebase";
+import { ref, onValue } from "firebase/database";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const Dashboard = () => {
   const navigation = useNavigation();
-  // render
+  const auth = getAuth();
+
+  const [user, setUser] = useState("");
+  const [rol, setRol] = useState();
+
+  const image = require("../Components/Logotipos Finales/Símbolos/White/MedioLogo.png");
+
+  //Obtener los datos del usuario Autentificado//
+
+  useEffect(() => {
+    const userId = auth.currentUser.uid;
+    const userRef = ref(database, `Usuarios/${userId}`);
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      setUser(data);
+    });
+  }, []);
+
+  console.log("usuario", user);
+  const onLogOut = () => {
+    signOut(auth)
+      .then(() => {
+        navigation.navigate("LoginScreen");
+        console.log("sign-out");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   return (
     <LinearGradient
       style={styles.background}
-      colors={["#4c669f", "#3b5998", "#192f6a"]}
+      colors={["#cc6d13", "#3b5998", "#101d3f"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
-      <StatusBar style="auto" />
-      <Text>EBEN EZER </Text>
-      <TouchableOpacity onPress={() => navigation.navigate("Programe")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Programe</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("AddProgram")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Adauga un program</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Cantari")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Cantari</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Responsabili")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Responsabili</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <Text>Hello {user?.name}</Text>
+        <SimpleLineIcons
+          name="logout"
+          size={24}
+          color="black"
+          onPress={onLogOut}
+        />
+        <Text style={styles.title}>ORGANIZARE PROGRAME</Text>
 
-      <Text>URMATOARELE PROGRAME </Text>
+        <View style={styles.butonsContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate("Programe")}>
+            <LinearGradient
+              colors={["#004d40", "#009688"]}
+              style={styles.appButtonContainer}
+            >
+              <Text style={styles.appButtonText}>Programe</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("Grupuri")}>
+            <LinearGradient
+              colors={["#004d40", "#009688"]}
+              style={styles.appButtonContainer}
+            >
+              <Text style={styles.appButtonText}>Grupuri</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("Cantari")}>
+            <LinearGradient
+              colors={["#004d40", "#009688"]}
+              style={styles.appButtonContainer}
+            >
+              <Text style={styles.appButtonText}>Cantari</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          {user?.role === "admin" && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Administrar")}
+            >
+              <LinearGradient
+                colors={["#004d40", "#009688"]}
+                style={styles.appButtonContainer}
+              >
+                <Text style={styles.appButtonText}>Administrar</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          )}
+        </View>
+      </ImageBackground>
     </LinearGradient>
   );
 };
@@ -62,7 +117,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  title: {
+    fontSize: 45,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 10,
+  },
+  image: {
+    width: "100%",
+    flex: 1,
+    justifyContent: "center",
+    // opacity: 0.5,
+  },
+
+  butonsContainer: {
+    // backgroundColor: "red",
+    height: "70%",
+    width: "100%",
+    display: "flex",
+    alignItems: "flex-start",
+    marginLeft: 10,
+    // flexDirection: "column-reverse",
+    justifyContent: "flex-end",
+  },
+
   appButtonContainer: {
+    width: 170,
     margin: 5,
     elevation: 8,
     borderRadius: 15,
