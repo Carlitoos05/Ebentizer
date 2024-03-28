@@ -19,15 +19,17 @@ const Grup = () => {
     });
   };
 
-  console.log("grup", grup);
-
   useEffect(() => {
     getGrup();
   }, []);
   return (
     <View>
-      <Text>Grup {grup.name}</Text>
-      <Text>Voci : {grup.team}</Text>
+      {grup && (
+        <View>
+          <Text>Grup {grup.name}</Text>
+          <Text>Voci : {grup?.team?.join(",  ")}</Text>
+        </View>
+      )}
     </View>
   );
 };

@@ -27,10 +27,8 @@ const Administrar = () => {
 
         tmpArray.push({ id: childKey, ...childData });
       });
-      const listOfPendings = tmpArray.filter(
-        (user) => user.role === "unauthorized"
-      );
-      const acceptedUsers = tmpArray.filter((user) => user.role === "user");
+      const listOfPendings = tmpArray.filter((user) => user.role === "0");
+      const acceptedUsers = tmpArray.filter((user) => user.role === "1");
       setUsers(acceptedUsers);
       setPendings(listOfPendings);
     });
@@ -41,25 +39,6 @@ const Administrar = () => {
   }, []);
 
   console.log(pendings);
-
-  // const getResponsabili = () => {
-  //   const responsabiliRef = ref(database, "Responsabili/");
-  //   onValue(responsabiliRef, (snapshot) => {
-  //     const tmpArray = [];
-  //     snapshot.forEach((childSnapshot) => {
-  //       const childKey = childSnapshot.key;
-  //       const childData = childSnapshot.val();
-
-  //       tmpArray.push({ id: childKey, ...childData });
-  //     });
-  //     const listOfResponsabili = tmpArray;
-  //     setResponsabili(listOfResponsabili);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getResponsabili();
-  // }, []);
 
   const myItemSeparator = () => {
     return (
@@ -140,7 +119,7 @@ const Administrar = () => {
           colors={["#560CCE", "#dda0dd"]}
           style={styles.appButtonContainer}
         >
-          <Text style={styles.appButtonText}>Adauga un Responsabil</Text>
+          <Text style={styles.appButtonText}>Adauga</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>

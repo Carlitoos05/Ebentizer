@@ -55,7 +55,7 @@ export default function RegisterScreen({ navigation }) {
           name: name.value,
           email: email.value,
           phoneNumber: phoneNumber.value,
-          role: "unauthorized",
+          role: "0",
         };
         const usersRef = ref(database, `Usuarios/${user.uid}`);
         set(usersRef, usuario)

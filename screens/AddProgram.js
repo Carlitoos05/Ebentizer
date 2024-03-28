@@ -47,14 +47,17 @@ const AddProgram = () => {
     <View>
       <Text>Adauga un PROGRAM</Text>
       <DatePicker getDate={getDate} />
-      <TouchableOpacity onPress={newProgram}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Save</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={newProgram}>
+          <LinearGradient
+            colors={["#004d40", "#009688"]}
+            style={styles.appButtonContainer}
+          >
+            <Text style={styles.appButtonText}>Save {data}</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -64,7 +67,7 @@ export default AddProgram;
 const styles = StyleSheet.create({
   appButtonContainer: {
     margin: 5,
-    elevation: 8,
+    elevation: 15,
     borderRadius: 15,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -75,5 +78,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
+  },
+  buttonContainer: {
+    alignItems: "center",
   },
 });

@@ -96,7 +96,7 @@ const Dashboard = () => {
               onPress={() => navigation.navigate("Administrar")}
             >
               <LinearGradient
-                colors={["#004d40", "#009688"]}
+                colors={["#b22222", "#fa8072"]}
                 style={styles.appButtonContainer}
               >
                 <Text style={styles.appButtonText}>Administrar</Text>
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
   },
 
   appButtonContainer: {
-    width: 170,
     margin: 5,
     elevation: 8,
     borderRadius: 15,
