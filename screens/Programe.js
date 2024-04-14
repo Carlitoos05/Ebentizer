@@ -7,19 +7,25 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import { database } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import Dialog from "react-native-dialog";
 
 const Programe = () => {
   const navigation = useNavigation();
 
   const [programs, setPrograms] = useState();
+  const [idToDelete, setIdToDelete] = useState();
+  const [visible, setVisible] = useState(false);
+
+  const programeRef = ref(database, "Programe/");
 
   const getPrograme = () => {
-    const programeRef = ref(database, "Programe/");
     onValue(programeRef, (snapshot) => {
       const tmpArray = [];
       snapshot.forEach((childSnapshot) => {
@@ -41,7 +47,7 @@ const Programe = () => {
   const myItemSeparator = () => {
     return (
       <View
-        style={{ height: 1, backgroundColor: "grey", marginHorizontal: 10 }}
+        style={{ height: 1, backgroundColor: "grey", marginHorizontal: 20 }}
       />
     );
   };
@@ -53,27 +59,37 @@ const Programe = () => {
       </View>
     );
   };
+  const onDeleteProgram = (programId) => {
+    setVisible(false);
+    const programRefToDelete = ref(database, `Programe/${idToDelete}`);
+    remove(programRefToDelete)
+      .then((data) => console.log("program deleted", data))
+      .catch((err) => console.error(err));
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+  const showDialog = (programId) => {
+    setIdToDelete(programId);
+    setVisible(true);
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("AddProgram")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Adauga un program</Text>
-        </LinearGradient>
-      </TouchableOpacity>
       <FlatList
         data={programs}
         renderItem={({ item }) => (
-          <Text
-            onPress={() =>
-              navigation.navigate("Program", { programId: item.id })
-            }
-            style={styles.item}
-          >
-            {JSON.stringify(item.data)}
-          </Text>
+          <View style={styles.item}>
+            <Text
+              onPress={() =>
+                navigation.navigate("Program", { programId: item.id })
+              }
+            >
+              {JSON.stringify(item.data)}
+            </Text>
+            <TouchableOpacity onPress={() => showDialog(item.id)}>
+              <SimpleLineIcons name="close" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         )}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={myItemSeparator}
@@ -85,25 +101,35 @@ const Programe = () => {
               textAlign: "center",
               marginTop: 20,
               fontWeight: "bold",
-              textDecorationLine: "underline",
+              // textDecorationLine: "underline",
             }}
           >
             Programe create
           </Text>
         )}
-        ListFooterComponent={() => (
-          <Text
-            style={{
-              fontSize: 10,
-              textAlign: "center",
-              marginBottom: 20,
-              fontWeight: "bold",
-            }}
-          >
-            EbenEzer-MEDIA-2024
-          </Text>
-        )}
       />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("AddProgram")}>
+          <LinearGradient
+            colors={["#004d40", "#009688"]}
+            style={styles.appButtonContainer}
+          >
+            <Text style={styles.appButtonText}>Adauga un program</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View style={styles.container}>
+          <Dialog.Container visible={visible}>
+            <Dialog.Title>Atentie !</Dialog.Title>
+            <Dialog.Description>
+              Esti sigur ca vrei sa stergi DEFINITIV programul ?
+            </Dialog.Description>
+            <Dialog.Button label="Cancel" onPress={handleCancel} />
+            <Dialog.Button label="Delete" onPress={onDeleteProgram} />
+          </Dialog.Container>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -117,6 +143,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   item: {
+    borderRadius: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -145,5 +175,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
+  },
+  buttonContainer: {
+    alignItems: "center",
   },
 });

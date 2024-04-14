@@ -5,7 +5,6 @@ import Cantari from "./screens/Cantari";
 import Administrar from "./screens/Administrar";
 import Dashboard from "./screens/Dashboard";
 import User from "./screens/User";
-
 import Programe from "./screens/Programe";
 import AddProgram from "./screens/AddProgram";
 import Program from "./screens/Program";
@@ -15,9 +14,9 @@ import Grupuri from "./screens/Grupuri";
 import AddGrup from "./Components/AddGrup";
 import Grup from "./Components/Grup";
 import LoginDashboard from "./Components/Login/screens/LoginDashboard";
-
 import StartScreen from "./Components/Login/screens/StartScreen";
 import LoginScreen from "./Components/Login/screens/LoginScreen";
+import Programari from "./screens/Programari";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +31,7 @@ const MyStack = () => {
       <Stack.Screen name="Programe" component={Programe} />
       <Stack.Screen name="AddProgram" component={AddProgram} />
       <Stack.Screen name="Program" component={Program} />
+      <Stack.Screen name="Programari" component={Programari} />
       <Stack.Screen name="Cantari" component={Cantari} />
       <Stack.Screen name="Grupuri" component={Grupuri} />
       <Stack.Screen name="Grup" component={Grup} />

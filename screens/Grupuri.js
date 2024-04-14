@@ -54,15 +54,6 @@ const Grupuri = () => {
 
   return (
     <View>
-      <Text>GRUPURI DE CANTARI</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("AddGrup")}>
-        <LinearGradient
-          colors={["#004d40", "#009688"]}
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>Adauga un grup </Text>
-        </LinearGradient>
-      </TouchableOpacity>
       <FlatList
         data={grupuri}
         renderItem={({ item }) => (
@@ -89,19 +80,17 @@ const Grupuri = () => {
             Grupuri create
           </Text>
         )}
-        ListFooterComponent={() => (
-          <Text
-            style={{
-              fontSize: 10,
-              textAlign: "center",
-              marginBottom: 20,
-              fontWeight: "bold",
-            }}
-          >
-            EbenEzer-MEDIA-2024
-          </Text>
-        )}
       />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("AddGrup")}>
+          <LinearGradient
+            colors={["#004d40", "#009688"]}
+            style={styles.appButtonContainer}
+          >
+            <Text style={styles.appButtonText}>Adauga un grup </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -143,5 +132,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
+  },
+  buttonContainer: {
+    alignItems: "center",
   },
 });
