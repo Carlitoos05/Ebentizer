@@ -26,7 +26,8 @@
     "firebase": "^10.9.0",
     "node-localstorage": "^3.0.5",
     "react": "18.2.0",
-    "react-native": "0.73.4"
+    "react-native": "0.73.4",
+    "react-native-gifted-chat": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -1,64 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
-import { auth } from '../firebase';
+import React, { useEffect } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import {useNavigation } from "@react-navigation/native";
+import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
+const Home = () => {
+  const navigation = useNavigation();
 
-
-export default function HomeScreen({ navigation }) {
-  const [user, setUser]=useState("");
-
-
-useEffect(()=>{
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-
-      setUser(user.displayName)
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
-
-  updateProfile(auth.currentUser, {
-    displayName: "Carlos", photoURL: "https://example.com/jane-q-user/profile.jpg"
-  }).then(() => {
-    console.log(user)
-  }).catch((error) => {
-    // An error occurred
-    // ...
-  });
-},[])
-
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <FontAwesome name="search" size={24} color= "#888" style={{marginLeft: 15}}/>
+      ),
+    });
+  }, [navigation]);
+      
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido {user}</Text>
-      
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Chat")}
+        style={styles.chatButton}
+      >
+        <Entypo name="chat" size={24} color= "#ccc" />
+      </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-   button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-})
+  export default Home;
+
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+      backgroundColor: '#fff',
+    },
+    chatButton: {
+      backgroundColor: '#007bff',
+      height: 50,
+      width: 50,
+      borderRadius: 25,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#007bff',
+      shadowOffSet: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: .9,
+      shadowRadius: 8,
+      marginRight: 20,
+      marginBottom: 50,
+    }
+  });
