@@ -15,7 +15,7 @@ export default function LoginScreen({navigation}) {
      if (email !== '' && password !== '') {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => console.log("Login success"))
-        .catch((err) => Alert.alert("Login error", err.message));
+        .catch((err) => Alert.alert("Email sau parolă incorectă", "Încearcă din nou"));
     }
   };
 
@@ -27,7 +27,7 @@ export default function LoginScreen({navigation}) {
         <Text style={styles.title}>Login</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
+          placeholder="Email"
           autoCapitalize="none"
           keyboardType="email-adress"
           textContentType="emailAdress"
@@ -38,7 +38,7 @@ export default function LoginScreen({navigation}) {
 
           <TextInput
           style={styles.input}
-          placeholder="Enter password"
+          placeholder="Parolă"
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
@@ -50,12 +50,21 @@ export default function LoginScreen({navigation}) {
       <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
         <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}>Log in</Text>
       </TouchableOpacity>
+
       <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-        <Text style={{color: 'gray', fontWeight: '600', fontSize: 14}}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-          <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Sign Up</Text>
+        <Text style={{color: 'gray', fontWeight: '800', fontSize: 14}}>Ai uitat parola? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}>
+        <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Resetă parola</Text>
         </TouchableOpacity>
-      </View>  
+      </View>
+
+      <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+        <Text style={{color: 'gray', fontWeight: '800', fontSize: 14}}>Nu ai un cont? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+  <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>

@@ -9,14 +9,21 @@ export default function SignUpScreen({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [fullName, setFullName] = useState('');
   
     const onHandleSignUp = () => {
   
        // Verificar que email y password no estén vacíos
        if (email !== '' && password !== '') {
+        if (password.length >= 8) {
         createUserWithEmailAndPassword(auth, email, password)
           .then(() => console.log("Signup success"))
-          .catch((err) => Alert.alert("Login error", err.message));
+          .catch((err) => Alert.alert("Email incorrect", "Email invalid sau deja este folosit "));
+      }else {
+        Alert.alert("Parolă incorectă", "Parola trebuie să conțină cel puțin 8 caractere");
+      }
+    }else {
+      Alert.alert("Ați lăsat un camp gol", "Vă rugăm, umpleți toate campurile.");
       }
     };
 
@@ -28,7 +35,14 @@ export default function SignUpScreen({navigation}) {
             <Text style={styles.title}>Sign up</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter email"
+              placeholder="Nume și Prenume"
+              autoCapitalize="words"
+              value={fullName}
+              onChangeText={(text) => setFullName(text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
               autoCapitalize="none"
               keyboardType="email-adress"
               textContentType="emailAdress"
@@ -39,7 +53,7 @@ export default function SignUpScreen({navigation}) {
     
               <TextInput
               style={styles.input}
-              placeholder="Enter password"
+              placeholder="Parolă"
               autoCapitalize="none"
               autoCorrect={false}
               secureTextEntry={true}
@@ -49,14 +63,8 @@ export default function SignUpScreen({navigation}) {
               />
     
           <TouchableOpacity style={styles.button} onPress={onHandleSignUp}>
-            <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}>Log in</Text>
+            <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}>Sign Up</Text>
           </TouchableOpacity>
-          <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-            <Text style={{color: 'gray', fontWeight: '600', fontSize: 14}}>Don't have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-              <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>  
           </SafeAreaView>
           <StatusBar barStyle="light-content" />
         </View>

@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import ChatHomeScreen from './screens/ChatHomeScreen';
 import HomeScreen from './screens/HomeScreen';
+import ResetPassword from './screens/ResetPassword';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ function AuthStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='SignUp' component={SignUpScreen} />
+      <Stack.Screen name='ResetPassword' component={ResetPassword} />
     </Stack.Navigator>
   );
 }
