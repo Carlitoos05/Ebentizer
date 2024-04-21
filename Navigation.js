@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { View, ActivityIndicator } from 'react-native';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import ChatHomeScreen from './screens/ChatHomeScreen';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
+import Chat from './screens/Chat';
 import HomeScreen from './screens/HomeScreen';
 import ResetPassword from './screens/ResetPassword';
 
@@ -16,7 +16,7 @@ function ChatStack() {
   return (
     <Stack.Navigator defaultScreenOptions={HomeScreen}>
       <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Chat' component={ChatHomeScreen} />
+      <Stack.Screen name='Chat' component={Chat} />
     </Stack.Navigator>
   );
 }
@@ -24,8 +24,8 @@ function ChatStack() {
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Login' component={LoginScreen} />
-      <Stack.Screen name='SignUp' component={SignUpScreen} />
+      <Stack.Screen name='Login' component={Login} />
+      <Stack.Screen name='SignUp' component={SignUp} />
       <Stack.Screen name='ResetPassword' component={ResetPassword} />
     </Stack.Navigator>
   );

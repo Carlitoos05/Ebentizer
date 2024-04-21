@@ -2,36 +2,13 @@ import React, {useCallback, useLayoutEffect, useState} from 'react';
 import { TouchableOpacity } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import {collection, addDoc, orderBy, query, onSnapshot} from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
 import { auth, database } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
 
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  
-  const onSignOut = () => {
-    signOut(auth) .catch(error => console.log(error));
-  };
-
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{
-            marginRight: 10
-          }}
-          onPress={onSignOut}
-        >
-
-          <AntDesign name="logout" size={24} color= "#888" style={{marginRight: 10}}/>
-        </TouchableOpacity>
-      )
-    });
-  }, [navigation]);
 
   useLayoutEffect(() => {
     const collectionRef = collection(database, 'chats');

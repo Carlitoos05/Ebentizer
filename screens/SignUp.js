@@ -5,7 +5,7 @@ import { auth } from '../firebase';
 const backImage = require ("../assets/backImage.png");
 
 
-export default function SignUpScreen({navigation}) {
+export default function SignUp({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

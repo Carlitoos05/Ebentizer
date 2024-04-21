@@ -3,18 +3,40 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import {useNavigation } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth'; // Importa la función de cerrar sesión desde firebase
+import { AntDesign } from '@expo/vector-icons';
 
 const Home = () => {
   const navigation = useNavigation();
+
+  const onSignOut = () => {
+    signOut(auth)
+    .catch(error => console.log(error));
+  };
+
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <FontAwesome name="search" size={24} color= "#888" style={{marginLeft: 15}}/>
       ),
+
+      headerRight: () => (
+        <TouchableOpacity
+          style={{
+            marginRight: 10
+          }}
+          onPress={onSignOut}
+        >
+
+          <AntDesign name="logout" size={24} color= "#888" style={{marginRight: 10}}/>
+        </TouchableOpacity>
+      )
     });
   }, [navigation]);
       
+  
 
   return (
     <View style={styles.container}>

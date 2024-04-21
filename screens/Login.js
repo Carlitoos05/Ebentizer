@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 const backImage = require ("../assets/backImage.png");
 
-export default function LoginScreen({navigation}) {
+export default function Login({navigation}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
