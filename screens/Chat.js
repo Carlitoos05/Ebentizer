@@ -1,7 +1,7 @@
 import React, {useCallback, useLayoutEffect, useState} from 'react';
 import { TouchableOpacity } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import {collection, addDoc, orderBy, query, onSnapshot} from 'firebase/firestore';
+import {collection, addDoc} from 'firebase/firestore';
 import { auth, database } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, StatusBar, Button, Image, SafeAreaView} from 'react-native';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
+import { auth, database } from '../firebase';
 const backImage = require ("../assets/backImage.png");
+const eben_ezer = require ("../assets/eben_ezer.png");
+
 
 export default function Login({navigation}) {
 
@@ -22,6 +24,9 @@ export default function Login({navigation}) {
   return (
     <View style={styles.container}>
       <Image source={backImage} style={styles.backImage}/>
+      <Image source={backImage} style={styles.backImage}/>
+      <Image source={eben_ezer} style={styles.eben_ezer}/>
+
       <View style={styles.whiteSheet}/>
       <SafeAreaView style={styles.form}>
         <Text style={styles.title}>Login</Text>
@@ -51,17 +56,17 @@ export default function Login({navigation}) {
         <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}>Log in</Text>
       </TouchableOpacity>
 
-      <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-        <Text style={{color: 'gray', fontWeight: '800', fontSize: 14}}>Ai uitat parola? </Text>
+      <View style={styles.ressetButton}>
+        <Text style={styles.text1}>Ai uitat parola? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}>
-        <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Resetă parola</Text>
+        <Text style={styles.text2}>Resetă parola</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-        <Text style={{color: 'gray', fontWeight: '800', fontSize: 14}}>Nu ai un cont? </Text>
+      <View style = {styles.ressetButton}>
+        <Text style={styles.text1}>Nu ai un cont? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-  <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}>Sign Up</Text>
+        <Text style={styles.text2}>Sign Up</Text>
         </TouchableOpacity>
       </View>
 
@@ -75,24 +80,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    //alignItems: 'center',
-    //padding: 20,
   },
   title: {
     fontSize: 36,
-    //marginBottom: 20,
-    //textAlign: 'center',
-    color: "orange",
+    color: '#8B0000',
     alignSelf: "center",
     paddingBottom: 24,
     fontWeight: 'bold',
   },
   input: {
     backgroundColor: "#F6F7FB",
-    //width: '100%',
     height: 58,
-    //borderWidth: 1,
-    //borderColor: '#ccc',
     borderRadius: 10,
     marginBottom: 20,
     padding: 12,
@@ -102,6 +100,14 @@ const styles = StyleSheet.create({
   backImage: {
     width: "100%",
     height: 340,
+    position: "absolute",
+    top: 0,
+    resizeMode: 'cover',
+  },
+
+  eben_ezer: {
+    width: "100%",
+    height: 240,
     position: "absolute",
     top: 0,
     resizeMode: 'cover',
@@ -123,11 +129,30 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#f57c00',
+    backgroundColor: '#8B0000',
     height: 58,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems:  'center',
     marginTop: 40,
   },
+
+  ressetButton:{
+    marginTop: 20, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    alignSelf: 'center'
+  },
+
+  text1: {
+    color: 'gray', 
+    fontWeight: '800', 
+    fontSize: 14
+  },
+
+  text2: {
+    color: '#8B0000', 
+    fontWeight: '600', 
+    fontSize: 14
+  }
 });

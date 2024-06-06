@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, Image, SafeAreaView, StatusBar} from 'react-native';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
-const backImage = require ("../assets/backImage.png");
+import { auth, firestore} from '../firebase';
+import {collection, addDoc} from 'firebase/firestore';
+const backImage = require ("../assets/backImage.png")
 
 
 export default function SignUp({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
   
     const onHandleSignUp = () => {
   
        // Verificar que email y password no estén vacíos
        if (email !== '' && password !== '') {
         if (password.length >= 8) {
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(() => console.log("Signup success"))
-          .catch((err) => Alert.alert("Email incorrect", "Email invalid sau deja este folosit "));
-      }else {
-        Alert.alert("Parolă incorectă", "Parola trebuie să conțină cel puțin 8 caractere");
-      }
-    }else {
-      Alert.alert("Ați lăsat un camp gol", "Vă rugăm, umpleți toate campurile.");
-      }
-    };
+          createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        // Guarda el nombre completo en Firebase
+                        addDoc(collection(firestore, 'users'), {
+                          nombre: firstName,
+                          apellido: lastName,
+                          email: email,
+                            // Otros datos del usuario si es necesario
+                        })
+                        .then(() => {
+                          console.log("User data saved in Firestore");
+                      }).catch((error) => {
+                          console.error("Error adding user data: ", error);
+                      });
+
+                        console.log("Signup success");
+                      })
+                      .catch((error) => {
+                          const errorCode = error.code;
+                          const errorMessage = error.message;
+                          Alert.alert("Error", errorMessage);
+                      });
+              } else {
+                  Alert.alert("Parolă incorectă", "Parola trebuie să conțină cel puțin 8 caractere");
+              }
+          } else {
+              Alert.alert("Ați lăsat un camp gol", "Vă rugăm, umpleți toate campurile.");
+          }
+      };
 
     return (
         <View style={styles.container}>
@@ -35,10 +57,17 @@ export default function SignUp({navigation}) {
             <Text style={styles.title}>Sign up</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nume și Prenume"
+              placeholder="Nume"
               autoCapitalize="words"
-              value={fullName}
-              onChangeText={(text) => setFullName(text)}
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Prenume"
+              autoCapitalize="words"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
             />
             <TextInput
               style={styles.input}
@@ -80,7 +109,7 @@ export default function SignUp({navigation}) {
         },
         title: {
           fontSize: 36,
-          color: "orange",
+          color: "#8B0000",
           alignSelf: "center",
           paddingBottom: 24,
           fontWeight: 'bold',
@@ -118,7 +147,7 @@ export default function SignUp({navigation}) {
         },
       
         button: {
-          backgroundColor: '#f57c00',
+          backgroundColor: '#8B0000',
           height: 58,
           borderRadius: 10,
           justifyContent: 'center',

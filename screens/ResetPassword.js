@@ -29,7 +29,7 @@ export default function ResetPassword({ navigation }) {
       <Image source={backImage} style={styles.backImage} />
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
-        <Text style={styles.title}>Reset Password</Text>
+        <Text style={styles.title}>Resetă Parola</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    color: "orange",
+    color: "#8B0000",
     alignSelf: "center",
     paddingBottom: 24,
     fontWeight: 'bold',
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   button: {
-    backgroundColor: '#f57c00',
+    backgroundColor: '#8B0000',
     height: 58,
     borderRadius: 10,
     justifyContent: 'center',
